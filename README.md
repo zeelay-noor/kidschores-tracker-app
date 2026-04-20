@@ -5,8 +5,8 @@ A full-stack web application designed to help parents manage their children's da
 ## 🎯 Project Overview
 
 **Final Year Project (FYP) - BSCS**  
-**Developer:** [Your Name]  
-**Institution:** [Your University]  
+**Developer:** Tanzeela Ijaz  
+**Email:** tanzeelaijazofficial@gmail.com  
 **Year:** 2026
 
 ---
@@ -293,17 +293,6 @@ python app.py
 
 ---
 
-## 🐛 Known Issues & Solutions
-
-### MongoDB Connection Error
-**Solution:** Check MongoDB Atlas Network Access and add your IP address
-
-### ML Service Not Running
-**Solution:** Ensure Flask is installed: `pip install flask flask-cors`
-
-### Port Already in Use
-**Solution:** Kill existing process or change port in config
-
 ---
 
 ## 🔒 Security Features
@@ -329,10 +318,9 @@ python app.py
 
 ## 👨‍💻 Developer
 
-**Name:** [Your Name]  
-**Email:** [Your Email]  
-**GitHub:** [Your GitHub Profile]  
-**LinkedIn:** [Your LinkedIn]
+**Name:** Tanzeela Ijaz  
+**Email:** tanzeelaijazofficial@gmail.com  
+**GitHub:** [@zeelay-noor](https://github.com/zeelay-noor)
 
 ---
 
@@ -351,9 +339,9 @@ This project is developed as a Final Year Project for academic purposes.
 
 ---
 
-## 📞 Support
+## 📞 Contact
 
-For issues or questions, please contact [your email] or create an issue in the repository.
+For inquiries or collaboration opportunities, reach out at tanzeelaijazofficial@gmail.com
 
 ---
 
