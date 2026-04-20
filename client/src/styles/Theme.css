@@ -1,0 +1,274 @@
+/* Global Theme & Colorful Styles */
+
+:root {
+  /* Rainbow Colors */
+  --color-red: #ff6b6b;
+  --color-orange: #ffa94d;
+  --color-yellow: #ffd93d;
+  --color-green: #6bcf7f;
+  --color-blue: #4ecdc4;
+  --color-purple: #a78bfa;
+  --color-pink: #ff85c0;
+  
+  /* Gradients */
+  --gradient-rainbow: linear-gradient(135deg, #ff6b6b, #ffa94d, #ffd93d, #6bcf7f, #4ecdc4);
+  --gradient-sunset: linear-gradient(135deg, #ff6b6b, #ffa94d);
+  --gradient-ocean: linear-gradient(135deg, #4ecdc4, #667eea);
+  --gradient-forest: linear-gradient(135deg, #6bcf7f, #4ecdc4);
+  --gradient-purple: linear-gradient(135deg, #a78bfa, #667eea);
+}
+
+/* Colorful Backgrounds */
+.bg-gradient-rainbow {
+  background: var(--gradient-rainbow);
+}
+
+.bg-gradient-sunset {
+  background: var(--gradient-sunset);
+}
+
+.bg-gradient-ocean {
+  background: var(--gradient-ocean);
+}
+
+.bg-gradient-forest {
+  background: var(--gradient-forest);
+}
+
+.bg-gradient-purple {
+  background: var(--gradient-purple);
+}
+
+/* Color Classes */
+.text-red { color: var(--color-red); }
+.text-orange { color: var(--color-orange); }
+.text-yellow { color: var(--color-yellow); }
+.text-green { color: var(--color-green); }
+.text-blue { color: var(--color-blue); }
+.text-purple { color: var(--color-purple); }
+.text-pink { color: var(--color-pink); }
+
+/* Icon Styling */
+.icon-sm {
+  font-size: 20px;
+}
+
+.icon-md {
+  font-size: 32px;
+}
+
+.icon-lg {
+  font-size: 48px;
+}
+
+.icon-xl {
+  font-size: 64px;
+}
+
+/* Icon with Colors */
+.icon-red { color: var(--color-red); }
+.icon-orange { color: var(--color-orange); }
+.icon-yellow { color: var(--color-yellow); }
+.icon-green { color: var(--color-green); }
+.icon-blue { color: var(--color-blue); }
+.icon-purple { color: var(--color-purple); }
+.icon-pink { color: var(--color-pink); }
+
+/* Animated Icons */
+.icon-bounce {
+  animation: iconBounce 0.6s ease-in-out;
+}
+
+.icon-spin {
+  animation: spin 2s linear infinite;
+}
+
+.icon-pulse {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* Colorful Cards */
+.card-rainbow {
+  background: var(--gradient-rainbow);
+  color: white;
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.card-gradient {
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Chore Icons with Different Colors */
+.chore-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  font-size: 24px;
+}
+
+.chore-cleaning { background: linear-gradient(135deg, #667eea, #764ba2); color: white; }
+.chore-homework { background: linear-gradient(135deg, #f093fb, #f5576c); color: white; }
+.chore-cooking { background: linear-gradient(135deg, #ffa751, #ffe259); color: white; }
+.chore-reading { background: linear-gradient(135deg, #4facfe, #00f2fe); color: white; }
+.chore-sports { background: linear-gradient(135deg, #43e97b, #38f9d7); color: white; }
+.chore-music { background: linear-gradient(135deg, #fa709a, #fee140); color: white; }
+.chore-art { background: linear-gradient(135deg, #a8edea, #fed6e3); color: #333; }
+.chore-other { background: linear-gradient(135deg, #a78bfa, #667eea); color: white; }
+
+/* Animated Buttons */
+.btn-animated {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.btn-animated::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.btn-animated:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+/* Badge Styles */
+.badge-achievement {
+  display: inline-block;
+  padding: 10px 15px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  animation: badgeBounce 0.5s ease-out;
+}
+
+.badge-gold {
+  background: linear-gradient(135deg, #ffd89b, #19547b);
+  color: white;
+}
+
+.badge-silver {
+  background: linear-gradient(135deg, #c0c0c0, #808080);
+  color: white;
+}
+
+.badge-bronze {
+  background: linear-gradient(135deg, #cd7f32, #8b4513);
+  color: white;
+}
+
+/* Animations */
+@keyframes iconBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+@keyframes badgeBounce {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Transitions */
+.transition-all {
+  transition: all 0.3s ease;
+}
+
+.transition-colors {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Responsive Grid with Colors */
+.chore-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 15px;
+}
+
+.chore-item {
+  text-align: center;
+  padding: 15px;
+  border-radius: 12px;
+  background: white;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.chore-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .chore-grid {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  }
+
+  .icon-xl {
+    font-size: 48px;
+  }
+}

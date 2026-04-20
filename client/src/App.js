@@ -15,6 +15,8 @@ import Marketplace from './components/Marketplace';
 import MarketplaceManager from './components/MarketplaceManager';
 import AISuggestions from './components/AISuggestions';
 import AITasks from './pages/AITasks';
+import FloatingMascot from './components/FloatingMascot';
+import './styles/Theme.css';
 
 function AppLayout({ children }) {
   const location = useLocation();
@@ -58,6 +60,7 @@ function App() {
           <Route path="/ai-suggestions" element={isAuthenticated ? <AITasks /> : <Navigate to="/login" />} />
           </Routes>
       </AppLayout>
+      {isAuthenticated && <FloatingMascot />}
     </Router>
   );
 }
