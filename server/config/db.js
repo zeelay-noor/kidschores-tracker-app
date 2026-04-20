@@ -34,7 +34,10 @@ const connectDB = async () => {
         await connect(fallbackUri);
         console.log("Connected to fallback local MongoDB");
       } catch (fallbackError) {
-        console.error("Fallback local MongoDB connection failed:", fallbackError.message);
+        console.error(
+          "Fallback local MongoDB connection failed:",
+          fallbackError.message,
+        );
         console.log("Starting in-memory MongoDB server...");
 
         try {
@@ -43,8 +46,13 @@ const connectDB = async () => {
           await connect(mongoUri);
           console.log("Connected to in-memory MongoDB server");
         } catch (memoryError) {
-          console.error("In-memory MongoDB server failed:", memoryError.message);
-          console.log("Please check your internet connection or install MongoDB locally");
+          console.error(
+            "In-memory MongoDB server failed:",
+            memoryError.message,
+          );
+          console.log(
+            "Please check your internet connection or install MongoDB locally",
+          );
           process.exit(1);
         }
       }
@@ -57,14 +65,16 @@ const connectDB = async () => {
         console.log("Connected to in-memory MongoDB server");
       } catch (memoryError) {
         console.error("In-memory MongoDB server failed:", memoryError.message);
-        console.log("Please set MONGODB_URI in your .env file or install MongoDB locally");
+        console.log(
+          "Please set MONGODB_URI in your .env file or install MongoDB locally",
+        );
         process.exit(1);
       }
     }
   }
 
   // Graceful shutdown
-  process.on('SIGINT', async () => {
+  process.on("SIGINT", async () => {
     if (mongoServer) {
       await mongoServer.stop();
     }
