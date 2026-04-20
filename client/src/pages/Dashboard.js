@@ -19,6 +19,16 @@ import {
   notifyDueDateReminder,
 } from "../utils/notifications";
 
+// Font Awesome Icon Components
+const CheckIcon = () => <i className="fas fa-check" style={{marginRight: '5px'}}/> ;
+const ClockIcon = () => <i className="fas fa-clock" style={{marginRight: '5px'}}/> ;
+const StarIcon = () => <i className="fas fa-star" style={{marginRight: '5px'}}/> ;
+const UserIcon = () => <i className="fas fa-user" style={{marginRight: '5px'}}/> ;
+const CalendarIcon = () => <i className="fas fa-calendar" style={{marginRight: '5px'}}/> ;
+const EyeIcon = () => <i className="fas fa-eye" style={{marginRight: '5px'}}/> ;
+const TrashIcon = () => <i className="fas fa-trash" style={{marginRight: '5px'}}/> ;
+const CameraIcon = () => <i className="fas fa-camera" style={{marginRight: '5px'}}/> ;
+
 function Dashboard() {
   const [chores, setChores] = useState([]);
   const [children, setChildren] = useState([]);
@@ -36,6 +46,19 @@ function Dashboard() {
   const [viewProof, setViewProof] = useState(null);
   const [rewards, setRewards] = useState(null);
   const navigate = useNavigate();
+
+  const checkOverdueChores = () => {
+    const now = new Date();
+    chores.forEach((chore) => {
+      if (chore.dueDate && chore.status === "pending") {
+        const dueDate = new Date(chore.dueDate);
+        const hoursUntilDue = (dueDate - now) / (1000 * 60 * 60);
+        if (hoursUntilDue > 0 && hoursUntilDue <= 1)
+          notifyDueDateReminder(chore.title, 1);
+        if (now > dueDate) notifyChoreOverdue(chore.title);
+      }
+    });
+  };
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
@@ -86,19 +109,6 @@ function Dashboard() {
     } catch (error) {
       console.error("Error fetching rewards:", error);
     }
-  };
-
-  const checkOverdueChores = () => {
-    const now = new Date();
-    chores.forEach((chore) => {
-      if (chore.dueDate && chore.status === "pending") {
-        const dueDate = new Date(chore.dueDate);
-        const hoursUntilDue = (dueDate - now) / (1000 * 60 * 60);
-        if (hoursUntilDue > 0 && hoursUntilDue <= 1)
-          notifyDueDateReminder(chore.title, 1);
-        if (now > dueDate) notifyChoreOverdue(chore.title);
-      }
-    });
   };
 
   const handleCreateChore = async (e) => {
@@ -233,22 +243,17 @@ function Dashboard() {
     };
   };
 
-  const getChoreEmoji = (title) => {
+  const getChoreIcon = (title) => {
     const lower = title.toLowerCase();
-    if (
-      lower.includes("clean") ||
-      lower.includes("sweep") ||
-      lower.includes("vacuum")
-    )
-      return "🧹";
-    if (lower.includes("dish") || lower.includes("wash")) return "🍽️";
-    if (lower.includes("dog") || lower.includes("walk")) return "🐕";
-    if (lower.includes("bed") || lower.includes("room")) return "🛏️";
-    if (lower.includes("laundry") || lower.includes("clothes")) return "👕";
-    if (lower.includes("trash") || lower.includes("garbage")) return "🗑️";
-    if (lower.includes("homework") || lower.includes("study")) return "📚";
-    if (lower.includes("garden") || lower.includes("yard")) return "🌱";
-    return "📋";
+    if (lower.includes("clean") || lower.includes("sweep") || lower.includes("vacuum")) return <CheckIcon />;
+    if (lower.includes("dish") || lower.includes("wash")) return <CheckIcon />;
+    if (lower.includes("dog") || lower.includes("walk")) return <CheckIcon />;
+    if (lower.includes("bed") || lower.includes("room")) return <CheckIcon />;
+    if (lower.includes("laundry") || lower.includes("clothes")) return <CheckIcon />;
+    if (lower.includes("trash") || lower.includes("garbage")) return <TrashIcon />;
+    if (lower.includes("homework") || lower.includes("study")) return <CheckIcon />;
+    if (lower.includes("garden") || lower.includes("yard")) return <CheckIcon />;
+    return <CheckIcon />;
   };
 
   const isParent = user?.role === "parent";
@@ -257,27 +262,24 @@ function Dashboard() {
     switch (status) {
       case "completed":
         return {
-          text: "✅ Completed",
-          bg: isParent
-            ? "linear-gradient(135deg, #00f5a0, #00d9f5)"
-            : "#dcfce7",
-          color: isParent ? "#003" : "#166534",
+          text: "Completed",
+          icon: <CheckIcon />,
+          bg: "linear-gradient(135deg, #00f5a0, #00d9f5)",
+          color: "#003",
         };
       case "pending_approval":
         return {
-          text: "⏳ Pending",
-          bg: isParent
-            ? "linear-gradient(135deg, #f7971e, #ffd200)"
-            : "#fef9c3",
-          color: isParent ? "#333" : "#854d0e",
+          text: "Pending",
+          icon: <ClockIcon />,
+          bg: "linear-gradient(135deg, #f7971e, #ffd200)",
+          color: "#333",
         };
       default:
         return {
-          text: "📋 Pending",
-          bg: isParent
-            ? "linear-gradient(135deg, #a18cd1, #fbc2eb)"
-            : "#eff6ff",
-          color: isParent ? "#333" : "#1e40af",
+          text: "Pending",
+          icon: <ClockIcon />,
+          bg: "linear-gradient(135deg, #a18cd1, #fbc2eb)",
+          color: "#333",
         };
     }
   };
@@ -298,7 +300,7 @@ function Dashboard() {
               htmlFor={`file-${chore._id}`}
               style={styles.uploadLabelChild}
             >
-              📸 Choose Proof
+              <CameraIcon /> Choose Proof
             </label>
             {selectedImage && selectedImage.choreId === chore._id && (
               <button
@@ -307,8 +309,8 @@ function Dashboard() {
                 disabled={uploadingChoreId === chore._id}
               >
                 {uploadingChoreId === chore._id
-                  ? "⏳ Uploading..."
-                  : "✅ Submit"}
+                  ? <ClockIcon /> + " Uploading..."
+                  : <CheckIcon /> + " Submit"}
               </button>
             )}
           </div>
@@ -326,14 +328,14 @@ function Dashboard() {
             <span
               style={{ color: "#d97706", fontWeight: "bold", fontSize: "13px" }}
             >
-              ⏳ Waiting approval...
+              <ClockIcon /> Waiting approval...
             </span>
             {chore.proofImage && (
               <button
                 onClick={() => setViewProof(chore)}
                 style={styles.viewProofBtnChild}
               >
-                👁️ View
+                <EyeIcon /> View
               </button>
             )}
           </div>
@@ -343,7 +345,7 @@ function Dashboard() {
           <span
             style={{ color: "#059669", fontWeight: "bold", fontSize: "13px" }}
           >
-            ✅ Completed & Approved!
+            <CheckIcon /> Completed & Approved!
           </span>
         );
       }
@@ -363,20 +365,20 @@ function Dashboard() {
                 onClick={() => setViewProof(chore)}
                 style={styles.viewProofBtn}
               >
-                👁️ View
+                <EyeIcon /> View
               </button>
             )}
             <button
               onClick={() => handleApprove(chore._id)}
               style={styles.approveBtn}
             >
-              ✅ Approve +{chore.points}pts
+              <CheckIcon /> Approve +{chore.points}pts
             </button>
             <button
               onClick={() => handleReject(chore._id)}
               style={styles.rejectBtn}
             >
-              ❌ Reject
+              <span style={{ color: "#ef4444", fontSize: "14px" }}>✕</span> Reject
             </button>
           </div>
         );
@@ -386,14 +388,14 @@ function Dashboard() {
             <span
               style={{ color: "#00f5a0", fontWeight: "bold", fontSize: "13px" }}
             >
-              ✅ Approved
+              <CheckIcon /> Approved
             </span>
             {chore.proofImage && (
               <button
                 onClick={() => setViewProof(chore)}
                 style={styles.viewProofBtn}
               >
-                👁️ View
+                <EyeIcon /> View
               </button>
             )}
           </div>
@@ -415,7 +417,7 @@ function Dashboard() {
         {/* Header */}
         <div style={styles.header}>
           <div>
-            <h1 style={styles.parentTitle}>🎯 Dashboard</h1>
+            <h1 style={styles.parentTitle}>Dashboard</h1>
             <p style={styles.parentSubtitle}>
               Welcome back,{" "}
               <span style={{ color: "#00f5a0", fontWeight: "700" }}>
@@ -425,7 +427,7 @@ function Dashboard() {
             </p>
           </div>
           <button onClick={handleLogout} style={styles.logoutBtnParent}>
-            🚪 Logout
+            Logout
           </button>
         </div>
 
@@ -433,21 +435,21 @@ function Dashboard() {
         <div style={styles.statsGrid}>
           {[
             {
-              icon: "📋",
+              icon: <CheckIcon />,
               value: chores.length,
               label: "Total Chores",
               bg: "linear-gradient(135deg, #667eea, #764ba2)",
               glow: "rgba(102,126,234,0.4)",
             },
             {
-              icon: "✅",
+              icon: <CheckIcon />,
               value: chores.filter((c) => c.status === "completed").length,
               label: "Completed",
               bg: "linear-gradient(135deg, #00f5a0, #00d9f5)",
               glow: "rgba(0,245,160,0.4)",
             },
             {
-              icon: "⏳",
+              icon: <ClockIcon />,
               value: chores.filter((c) => c.status === "pending_approval")
                 .length,
               label: "Pending Approval",
@@ -455,7 +457,7 @@ function Dashboard() {
               glow: "rgba(247,151,30,0.4)",
             },
             {
-              icon: "👶",
+              icon: <UserIcon />,
               value: children.length,
               label: "Children",
               bg: "linear-gradient(135deg, #ff6b6b, #ee0979)",
@@ -480,10 +482,10 @@ function Dashboard() {
         <div style={styles.sectionHeader}>
           <div style={styles.sectionTitleWrapper}>
             <div style={styles.sectionDot}></div>
-            <h2 style={styles.parentSectionTitle}>📋 Chores List</h2>
+            <h2 style={styles.parentSectionTitle}>Chores List</h2>
           </div>
           <button onClick={() => setShowForm(!showForm)} style={styles.addBtn}>
-            {showForm ? "✕ Cancel" : "+ Add New Chore"}
+            {showForm ? "Cancel" : "+ Add New Chore"}
           </button>
         </div>
 
@@ -497,7 +499,7 @@ function Dashboard() {
                 marginBottom: "20px",
               }}
             >
-              ➕ Create New Chore
+              Create New Chore
             </h3>
             <form onSubmit={handleCreateChore}>
               <div style={styles.formGrid}>
@@ -572,7 +574,7 @@ function Dashboard() {
                 </div>
               </div>
               <button type="submit" style={styles.submitBtnParent}>
-                ✅ Create Chore
+                Create Chore
               </button>
             </form>
           </div>
@@ -654,7 +656,7 @@ function Dashboard() {
                         color: "#212121",
                       }}
                     >
-                      {getChoreEmoji(chore.title)} {chore.title}
+                      {getChoreIcon(chore.title)} {chore.title}
                     </h3>
                     <span
                       style={{
@@ -666,8 +668,12 @@ function Dashboard() {
                         fontWeight: "700",
                         whiteSpace: "nowrap",
                         flexShrink: 0,
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "4px",
                       }}
                     >
+                      {statusBadge.icon}
                       {statusBadge.text}
                     </span>
                   </div>
@@ -692,14 +698,14 @@ function Dashboard() {
                     }}
                   >
                     <span style={styles.metaItemParent}>
-                      ⭐ {chore.points} pts
+                      <StarIcon /> {chore.points} pts
                     </span>
                     <span style={styles.metaItemParent}>
-                      👤 {chore.assignedTo?.name || "N/A"}
+                      <UserIcon /> {chore.assignedTo?.name || "N/A"}
                     </span>
                     {chore.dueDate && (
                       <span style={styles.metaItemParent}>
-                        📅 {new Date(chore.dueDate).toLocaleDateString()}
+                        <CalendarIcon /> {new Date(chore.dueDate).toLocaleDateString()}
                       </span>
                     )}
                   </div>
@@ -718,7 +724,7 @@ function Dashboard() {
                       onClick={() => handleDelete(chore._id)}
                       style={styles.deleteBtn}
                     >
-                      🗑️
+                      <TrashIcon />
                     </button>
                   </div>
                 </div>
@@ -741,7 +747,7 @@ function Dashboard() {
                   marginBottom: "8px",
                 }}
               >
-                📸 {viewProof.title}
+                {viewProof.title}
               </h2>
               <p style={{ color: "#a0aec0", marginBottom: "16px" }}>
                 By: {viewProof.assignedTo?.name}
@@ -788,17 +794,17 @@ function Dashboard() {
       {/* Header */}
       <div style={styles.header}>
         <div>
-          <h1 style={styles.childTitle}>🌟 My Dashboard</h1>
+          <h1 style={styles.childTitle}>My Dashboard</h1>
           <p style={styles.childSubtitle}>
             Hey{" "}
             <span style={{ color: "#7c3aed", fontWeight: "700" }}>
               {user?.name}
             </span>
-            , let's get things done! 💪
+            , let's get things done!
           </p>
         </div>
         <button onClick={handleLogout} style={styles.logoutBtnChild}>
-          🚪 Logout
+          Logout
         </button>
       </div>
 
@@ -814,28 +820,28 @@ function Dashboard() {
       <div style={styles.statsGrid}>
         {[
           {
-            icon: "📋",
+            icon: <CheckIcon />,
             value: chores.length,
             label: "Total Tasks",
             bg: "linear-gradient(135deg, #C77DFF, #FF8FAB)",
             glow: "rgba(199,125,255,0.4)",
           },
           {
-            icon: "✅",
+            icon: <CheckIcon />,
             value: chores.filter((c) => c.status === "completed").length,
             label: "Completed",
             bg: "linear-gradient(135deg, #6BCF7F, #4ECDC4)",
             glow: "rgba(107,207,127,0.4)",
           },
           {
-            icon: "⭐",
+            icon: <StarIcon />,
             value: rewards?.totalPoints || 0,
             label: "Total Points",
             bg: "linear-gradient(135deg, #FFD93D, #FF8FAB)",
             glow: "rgba(255,217,61,0.4)",
           },
           {
-            icon: "🔥",
+            icon: <CheckIcon />,
             value: rewards?.currentStreak || 0,
             label: "Day Streak",
             bg: "linear-gradient(135deg, #FF8FAB, #FF6B6B)",
@@ -850,7 +856,7 @@ function Dashboard() {
               boxShadow: `0 8px 25px ${stat.glow}`,
             }}
           >
-            <div style={{ fontSize: "28px" }}>{stat.icon}</div>
+            <div style={{ fontSize: "28px", color: "white" }}>{stat.icon}</div>
             <div
               style={{
                 fontSize: "32px",
@@ -884,7 +890,7 @@ function Dashboard() {
               boxShadow: "0 0 10px rgba(167,139,250,0.8)",
             }}
           ></div>
-          <h2 style={styles.childSectionTitle}>📋 My Chores</h2>
+          <h2 style={styles.childSectionTitle}><CheckIcon /> My Chores</h2>
         </div>
       </div>
 
@@ -959,7 +965,7 @@ function Dashboard() {
                     }}
                   >
                     <span style={{ fontSize: "20px" }}>
-                      {getChoreEmoji(chore.title)}
+                      {getChoreIcon(chore.title)}
                     </span>
                     {chore.title}
                   </h3>
@@ -1011,7 +1017,7 @@ function Dashboard() {
                       borderRadius: "20px",
                     }}
                   >
-                    ⭐ {chore.points} pts
+                    <StarIcon /> {chore.points} pts
                   </span>
                   <span
                     style={{
@@ -1070,7 +1076,7 @@ function Dashboard() {
                 marginBottom: "8px",
               }}
             >
-              📸 {viewProof.title}
+              <CameraIcon /> {viewProof.title}
             </h2>
             <p style={{ color: "#6b7280", marginBottom: "16px" }}>
               By: {viewProof.assignedTo?.name}
