@@ -1,0 +1,9 @@
+node_modules/
+client/node_modules/
+.env
+.DS_Store
+*.log
+ml_service/__pycache__/
+ml_service/*.pyc
+*.pkl
+training.*.csv

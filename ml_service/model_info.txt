@@ -1,0 +1,11 @@
+Best Model: Logistic Regression
+Accuracy: 75.00%
+Training samples: 8000
+Test samples: 2000
+
+All Model Results:
+Logistic Regression: 75.00%
+SVM: 74.10%
+Naive Bayes: 73.80%
+Random Forest: 72.75%
+Decision Tree: 65.35%
